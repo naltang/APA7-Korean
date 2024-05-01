@@ -4396,9 +4396,8 @@
                             <!-- XXX if there is slash, then remove before, including slash itself -->
                             <xsl:choose>
                               <xsl:when test="contains($enclosedDateDot,'/')">
-                                <xsl:value-of select="substring-before($enclosedDateDot,'/')" />
-                                <xsl:value-of select="')'" />
-                                <xsl:value-of select="substring-after($enclosedDateDot,')')" />
+                                <xsl:value-of select="'('" />
+                                <xsl:value-of select="substring-after($enclosedDateDot,'/')" />
                               </xsl:when>
                               <xsl:otherwise>
                                 <xsl:value-of select="$enclosedDateDot"/>
