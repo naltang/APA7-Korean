@@ -4394,19 +4394,14 @@
                           <xsl:if test="string-length($enclosedDateDot)>0">
                             <xsl:call-template name="templ_prop_Space"/>
                             <!-- XXX if there is slash, then remove before, including slash itself -->
-                            <xsl:variable name="charSlash" select="'/'" />
-                            <xsl:variable name="charClose" select="')'" />
                             <xsl:choose>
-                              <xsl:when test="contains($enclosedDateDot,$charSlash)">
-                              <!--
-                                <xsl:variable name=strPrefix select="substring-before($enclosedDateDot,$charSlash)" />
-                                <xsl:variable name=strSuffix select="substring-after($enclosedDateDot,$charClose)" />
-                                -->
-                                <xsl:value-of select="concat($strPrefix,$strSuffix)"/>
+                              <xsl:when test="contains($enclosedDateDot,'/')">
+                                <xsl:value-of select="substring-before($enclosedDateDot,'/')" />
+                                <xsl:value-of select="')'" />
+                                <xsl:value-of select="substring-after($enclosedDateDot,')')" />
                               </xsl:when>
                               <xsl:otherwise>
-                                <!--xsl:value-of select="$enclosedDateDot"/-->
-                                <xsl:value-of select="333"/>
+                                <xsl:value-of select="$enclosedDateDot"/>
                               </xsl:otherwise>
                             </xsl:choose>
                           </xsl:if>
