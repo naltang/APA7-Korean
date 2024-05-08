@@ -395,7 +395,6 @@
     </xsl:variable>
     <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$_LCID]/b:Strings/b:AndOthersUnCap"/>
   </xsl:template>
-
   
   <xsl:template name="templ_str_MotionPictureCap" >
     <xsl:param name="LCID" />
@@ -404,17 +403,19 @@
         <xsl:with-param name="LCID" select="$LCID"/>
       </xsl:call-template>
     </xsl:variable>
-    <!-- XXX For English(US), APA6 was "Motion Picture", APA7 is "Film" -->
-    <!-- LCID of English(US) is 1033 -->
+    <!-- XXX APA6 was "Motion Picture", APA7 changed into "Film" -->
+    <xsl:variable name="apa6MotionPictureCap">
+        <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$_LCID]/b:Strings/b:MotionPictureCap"/>
+    </xsl:variable>
     <xsl:choose>
-      <xsl:when test="$_LCID=1033">
+      <xsl:when test="$apa6MotionPictureCap='Motion Picture'">
         <xsl:text>Film</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$_LCID]/b:Strings/b:MotionPictureCap"/>
+        <xsl:value-of select="$apa6MotionPictureCap"/>
       </xsl:otherwise>
     </xsl:choose>
-    <!-- end of "Film" patch -->
+    <!-- XXX end of "Film" patch -->
   </xsl:template>
   
   <xsl:template name="templ_str_PatentCap" >
