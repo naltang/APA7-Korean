@@ -404,9 +404,18 @@
         <xsl:with-param name="LCID" select="$LCID"/>
       </xsl:call-template>
     </xsl:variable>
-    <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$_LCID]/b:Strings/b:MotionPictureCap"/>
+    <!-- XXX For English, APA6 was "Motion Picture", APA7 is "Film" -->
+    <!-- LCID of English is -->
+    <xsl:choose>
+      <xsl:when test="$LCID=1033">
+        <xsl:value-of select="XXXXXXXX"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$_LCID]/b:Strings/b:MotionPictureCap"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    <!-- end of "Film" patch -->
   </xsl:template>
-
   
   <xsl:template name="templ_str_PatentCap" >
     <xsl:param name="LCID" />
