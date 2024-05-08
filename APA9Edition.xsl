@@ -404,11 +404,11 @@
         <xsl:with-param name="LCID" select="$LCID"/>
       </xsl:call-template>
     </xsl:variable>
-    <!-- XXX For English, APA6 was "Motion Picture", APA7 is "Film" -->
-    <!-- LCID of English is -->
+    <!-- XXX For English(US), APA6 was "Motion Picture", APA7 is "Film" -->
+    <!-- LCID of English(US) is 1033 -->
     <xsl:choose>
-      <xsl:when test="$LCID=1033">
-        <xsl:value-of select="XXXXXXXX"/>
+      <xsl:when test="$_LCID=1033">
+        <xsl:text>Film</xsl:text>
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$_LCID]/b:Strings/b:MotionPictureCap"/>
