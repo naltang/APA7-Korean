@@ -4403,7 +4403,7 @@
 
                           <xsl:if test="string-length($enclosedDateDot)>0">
                             <xsl:call-template name="templ_prop_Space"/>
-                            <!-- XXX if there is slash, then remove before, including slash itself -->
+                            <!-- XXX if there is slash, then remove string before it, including slash itself -->
                             <xsl:choose>
                               <xsl:when test="contains($enclosedDateDot,'/')">
                                 <xsl:value-of select="'('" />
@@ -5288,6 +5288,14 @@
                             <xsl:value-of select="$titleDot"/>
                           </xsl:if>
 
+                          <!-- XXX add medium field to ElectronicSource -->
+                          <xsl:if test="string-length(b:Medium)>0">
+                            <xsl:call-template name="templ_prop_APA_SecondaryOpen"/>
+                            <xsl:value-of select="b:Medium"/>
+                            <xsl:call-template name="templ_prop_APA_SecondaryClose"/>
+                          </xsl:if>
+                          <!-- end of add medium field -->
+
                           <xsl:if test="string-length($tempPVEP)>0">
                             <xsl:call-template name="templ_prop_Space"/>
                             <xsl:copy-of select="$tempPVEP"/>
@@ -5676,7 +5684,8 @@
     
     <xsl:apply-templates select="msxsl:node-set($sourceRoot)/*">
       
-      <xsl:sort select="b:SortingString" />
+      <!-- XXX add language code -->
+      <xsl:sort select="b:SortingString" order="descending" lang="ko"/>
       
     </xsl:apply-templates>
     
@@ -5691,6 +5700,7 @@
         </xsl:attribute>
       </xsl:for-each>
       <xsl:apply-templates>
+        <!-- XXX add language code -->
         <xsl:sort select="b:SortingString" />
         
       </xsl:apply-templates>
@@ -6951,9 +6961,10 @@
       <xsl:call-template name="templateCSC2"/>
     </xsl:variable>
     <xsl:call-template name="templateB">
-      <!-- XXX APA 7 requires not to print city info for the publisher
-      <xsl:with-param name="first" select="$csc"/>
-	  -->
+      <!-- XXX APA 7 requires not to print city info for the publisher -->
+      <!-- APA6: xsl:with-param name="first" select="$csc"/ -->
+      <xsl:with-param name="first" select=""/>
+      <!-- end of XXX -->
       <xsl:with-param name="second" select="b:Publisher"/>
     </xsl:call-template>
   </xsl:template>
