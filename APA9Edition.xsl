@@ -2120,23 +2120,6 @@
     </a>
   </xsl:template>
 
-  <xsl:template name="findAndFormatHyperlink">
-    <xsl:param name="original"/>
-    <xsl:param name="url"/>
-    <xsl:choose>
-      <xsl:when test="contains($original,$url)">
-        <xsl:value-of select="substring-before($original,$url)"/>
-        <xsl:call-template name="formatHyperlink">
-          <xsl:with-param name="url" select="$url"/>
-        </xsl:call-template>
-        <xsl:value-of select="substring-after($original,$url)"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="$original"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-
   <xsl:template match="/">
 
     <xsl:choose>
@@ -3036,9 +3019,16 @@
 								</xsl:when>
 								<xsl:when test="$type='Patent' and string-length($patent) > 0">
 								</xsl:when>
+                <!-- XXX bug: shows title only when RepeatedAuthor -->
+                <!--
 								<xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:RepeatedAuthor">
 									<xsl:value-of select="$title" />
 								</xsl:when>
+                -->
+                <xsl:otherwise>
+									<xsl:value-of select="$title" />
+								</xsl:otherwise>
+                <!-- end of patch XXX -->
 							</xsl:choose>
 						</xsl:variable>
 
@@ -5283,18 +5273,14 @@
                             <xsl:value-of select="$enclosedDateDot"/>
                           </xsl:if>
 
+                          <xsl:variable name="lastDot">
+                            <xsl:call-template name="templ_prop_Dot"/>
+                          </xsl:variable>
+
                           <xsl:if test="string-length($titleDot)>0">
                             <xsl:call-template name="templ_prop_Space"/>
-                            <xsl:value-of select="$titleDot"/>
+                            <xsl:value-of select="$titleDot" />
                           </xsl:if>
-
-                          <!-- XXX add medium field to ElectronicSource -->
-                          <xsl:if test="string-length(b:Medium)>0">
-                            <xsl:call-template name="templ_prop_APA_SecondaryOpen"/>
-                            <xsl:value-of select="b:Medium"/>
-                            <xsl:call-template name="templ_prop_APA_SecondaryClose"/>
-                          </xsl:if>
-                          <!-- end of add medium field -->
 
                           <xsl:if test="string-length($tempPVEP)>0">
                             <xsl:call-template name="templ_prop_Space"/>
@@ -5651,15 +5637,12 @@
 
                 <xsl:choose>
                   <xsl:when test="string-length($doi)>0">
-                      <xsl:call-template name="formatHyperlink">
-                        <xsl:with-param name="url" select="concat($doiPrefix, $doi)"/>
-                      </xsl:call-template>
+                    <xsl:call-template name="formatHyperlink">
+                      <xsl:with-param name="url" select="concat($doiPrefix, $doi)"/>
+                    </xsl:call-template>
                   </xsl:when>
                   <xsl:when test="string-length($tempRDAFU)>0">
-                    <xsl:call-template name="findAndFormatHyperlink">
-                      <xsl:with-param name="original" select="$tempRDAFU"/>
-                      <xsl:with-param name="url" select="b:URL"/>
-                    </xsl:call-template>
+                    <xsl:copy-of select="$tempRDAFU"/>
                   </xsl:when>
                 </xsl:choose>
 
@@ -6584,6 +6567,15 @@
 
         <xsl:value-of select="$tempFifth"/>
       </xsl:if>
+
+      <!-- XXX if "medium" field exists, then include it -->
+      <xsl:if test="string-length(b:Medium)>0">
+        <xsl:call-template name="templ_prop_Space"/>
+        <xsl:call-template name="templ_prop_APA_SecondaryOpen"/>
+        <xsl:value-of select="b:Medium"/>
+        <xsl:call-template name="templ_prop_APA_SecondaryClose"/>
+      </xsl:if>
+      <!-- XXX end of add medium field -->
     </xsl:variable>
 
     <xsl:copy-of select="$temp"/>
@@ -6963,7 +6955,6 @@
     <xsl:call-template name="templateB">
       <!-- XXX APA 7 requires not to print city info for the publisher -->
       <!-- APA6: xsl:with-param name="first" select="$csc"/ -->
-      <xsl:with-param name="first" select=""/>
       <!-- end of XXX -->
       <xsl:with-param name="second" select="b:Publisher"/>
     </xsl:call-template>
@@ -7170,7 +7161,11 @@
       </xsl:if>
     
       <xsl:if test="string-length(b:URL)>0">
-        <xsl:value-of select="b:URL"/>
+        <!-- XXX format hyperlink-->
+        <!-- xsl:value-of select="b:URL"/-->
+        <xsl:call-template name="formatHyperlink">
+          <xsl:with-param name="url" select="b:URL"/>
+        </xsl:call-template>
       </xsl:if>
     </xsl:variable>
 
@@ -7197,7 +7192,7 @@
                   <xsl:value-of select="$dac"/>
                 </t:param>
                 <t:param>
-                  <xsl:value-of select="$internetSiteTitleAndURL"/>
+                  <xsl:copy-of select="$internetSiteTitleAndURL"/>
                 </t:param>
               </t:params>
             </xsl:with-param>
@@ -7223,7 +7218,7 @@
             <xsl:with-param name="parameters">
               <t:params>
                 <t:param>
-                  <xsl:value-of select="$internetSiteTitleAndURL"/>
+                  <xsl:copy-of select="$internetSiteTitleAndURL"/>
                 </t:param>
               </t:params>
             </xsl:with-param>
@@ -7231,7 +7226,7 @@
         </xsl:when>
       </xsl:choose>
     </xsl:variable>
-    <xsl:value-of select="$temp"/>
+    <xsl:copy-of select="$temp"/>
   </xsl:template>
 
   <xsl:template name="handleHyphens">
