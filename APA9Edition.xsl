@@ -3810,7 +3810,16 @@
                 <xsl:variable name="enclosedDateDot">
                   <xsl:if test="string-length($date)>0">
                     <xsl:call-template name="templ_prop_APA_GeneralOpen"/>
-                    <xsl:value-of select="$date"/>
+                    <!-- XXX if there is slash, then remove string before it, including slash itself -->
+                    <xsl:choose>
+                      <xsl:when test="contains($date,'/')">
+                        <xsl:value-of select="'('" />
+                        <xsl:value-of select="substring-after($date,'/')" />
+                      </xsl:when>
+                      <xsl:otherwise>
+                        <xsl:value-of select="$date"/>
+                      </xsl:otherwise>
+                    </xsl:choose>
                     <xsl:call-template name="templ_prop_APA_GeneralClose"/>
                     <xsl:call-template name="templ_prop_Dot"/>
                   </xsl:if>
@@ -4393,16 +4402,7 @@
 
                           <xsl:if test="string-length($enclosedDateDot)>0">
                             <xsl:call-template name="templ_prop_Space"/>
-                            <!-- XXX if there is slash, then remove string before it, including slash itself -->
-                            <xsl:choose>
-                              <xsl:when test="contains($enclosedDateDot,'/')">
-                                <xsl:value-of select="'('" />
-                                <xsl:value-of select="substring-after($enclosedDateDot,'/')" />
-                              </xsl:when>
-                              <xsl:otherwise>
-                                <xsl:value-of select="$enclosedDateDot"/>
-                              </xsl:otherwise>
-                            </xsl:choose>
+                            <xsl:value-of select="$enclosedDateDot"/>
                           </xsl:if>
 
                           <xsl:if test="string-length($i_titleEditionVolumeDot)>0">
