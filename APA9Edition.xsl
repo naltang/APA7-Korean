@@ -3813,7 +3813,6 @@
                     <!-- XXX if there is slash, then remove string before it, including slash itself -->
                     <xsl:choose>
                       <xsl:when test="contains($date,'/')">
-                        <xsl:value-of select="'('" />
                         <xsl:value-of select="substring-after($date,'/')" />
                       </xsl:when>
                       <xsl:otherwise>
