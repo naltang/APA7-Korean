@@ -8341,7 +8341,7 @@
 		<xsl:param name="data" />
 
 	    <xsl:variable name="prop_NoItalics">
-	      <xsl:call-template name="templ_prop_NoItalics"/>
+	      <!--xsl:call-template name="templ_prop_NoItalics"/-->
 	    </xsl:variable>
 
 		<xsl:choose>
@@ -8388,7 +8388,7 @@
 		<xsl:param name="data" />
 
 	    <xsl:variable name="prop_NoItalics">
-	      <xsl:call-template name="templ_prop_NoItalics"/>
+	      <!--xsl:call-template name="templ_prop_NoItalics"/-->
 	    </xsl:variable>
 
 		<xsl:choose>
