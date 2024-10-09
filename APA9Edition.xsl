@@ -2712,385 +2712,385 @@
 
             <xsl:element name="p">
 
-            <xsl:attribute name="lang">
-              <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$LCID]/@Culture"/>
-            </xsl:attribute>
+              <xsl:attribute name="lang">
+                <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$LCID]/@Culture"/>
+              </xsl:attribute>
 
-            <xsl:attribute name="dir">
-              <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$LCID]/b:Properties/b:Direction"/>
-            </xsl:attribute>
+              <xsl:attribute name="dir">
+                <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$LCID]/b:Properties/b:Direction"/>
+              </xsl:attribute>
 
-            <xsl:variable name="type">
-              <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:SourceType"/>
-            </xsl:variable>
+              <xsl:variable name="type">
+                <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:SourceType"/>
+              </xsl:variable>
 
-            <xsl:variable name="title0">
-              <xsl:choose>
-                <xsl:when test="string-length(msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:ShortTitle)>0">
-                  <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:ShortTitle" />
-                </xsl:when>
+              <xsl:variable name="title0">
+                <xsl:choose>
+                  <xsl:when test="string-length(msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:ShortTitle)>0">
+                    <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:ShortTitle" />
+                  </xsl:when>
 
-                <xsl:otherwise>
-                  <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Title" />
-                </xsl:otherwise>
-              </xsl:choose>
-            </xsl:variable>
+                  <xsl:otherwise>
+                    <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Title" />
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:variable>
 
-            <xsl:variable name="year0">
-              <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Year" />
-            </xsl:variable>
+              <xsl:variable name="year0">
+                <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Year" />
+              </xsl:variable>
 
-            <xsl:variable name="authorMain">
-              <xsl:copy-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Author/b:Main"/>
-            </xsl:variable>
+              <xsl:variable name="authorMain">
+                <xsl:copy-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Author/b:Main"/>
+              </xsl:variable>
 
-            <xsl:variable name="patentNumber">
-              <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:PatentNumber"/>
-            </xsl:variable>
+              <xsl:variable name="patentNumber">
+                <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:PatentNumber"/>
+              </xsl:variable>
 
-            <xsl:variable name="countryRegion">
-              <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:CountryRegion"/>
-            </xsl:variable>
+              <xsl:variable name="countryRegion">
+                <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:CountryRegion"/>
+              </xsl:variable>
 
-            <xsl:variable name="patent">
-              <xsl:if test="string-length($patentNumber)>0">
-                <xsl:if test="string-length($countryRegion) > 0">
-                  <xsl:value-of select="$countryRegion"/>
-                  <xsl:call-template name="templ_prop_Space"/>
-                </xsl:if>
+              <xsl:variable name="patent">
+                <xsl:if test="string-length($patentNumber)>0">
+                  <xsl:if test="string-length($countryRegion) > 0">
+                    <xsl:value-of select="$countryRegion"/>
+                    <xsl:call-template name="templ_prop_Space"/>
+                  </xsl:if>
 
-                <xsl:variable name="str_PatentNumberShortCap">
-                  <xsl:call-template name="templ_str_PatentNumberShortCap"/>
-                </xsl:variable>
-
-                <xsl:call-template name="StringFormat">
-                  <xsl:with-param name="format" select="$str_PatentNumberShortCap"/>
-                  <xsl:with-param name="parameters">
-                    <t:params>
-                      <t:param>
-                        <xsl:value-of select="$patentNumber"/>
-                      </t:param>
-                    </t:params>
-                  </xsl:with-param>
-                </xsl:call-template>
-              </xsl:if>
-            </xsl:variable>
-
-            <xsl:variable name="maxCitationAuthors" select="2"/>
-
-            <xsl:variable name="author0">
-              <xsl:choose>
-                <xsl:when test="string-length(msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Author/b:Main/b:Corporate) > 0">
-                  <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Author/b:Main/b:Corporate" />
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:variable name="cAuthors">
-                    <xsl:value-of select="count(msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Author/b:Main/b:NameList/b:Person)" />
+                  <xsl:variable name="str_PatentNumberShortCap">
+                    <xsl:call-template name="templ_str_PatentNumberShortCap"/>
                   </xsl:variable>
 
-                  <xsl:for-each select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Author/b:Main/b:NameList/b:Person">
-                    <xsl:if test="position() = 1">
-                      <xsl:call-template name="formatNameCore">
-                        <xsl:with-param name="FML">
-                          <xsl:choose>
-                            <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NonUniqueLastName">
-                              <xsl:call-template name="templ_prop_APA_CitationLong_FML"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                              <xsl:call-template name="templ_prop_APA_CitationShort_FML"/>
-                            </xsl:otherwise>
-                          </xsl:choose>
-                        </xsl:with-param>
-                        <xsl:with-param name="FM">
-                          <xsl:choose>
-                            <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NonUniqueLastName">
-                              <xsl:call-template name="templ_prop_APA_CitationLong_FM"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                              <xsl:call-template name="templ_prop_APA_CitationShort_FM"/>
-                            </xsl:otherwise>
-                          </xsl:choose>
-                        </xsl:with-param>
-                        <xsl:with-param name="ML">
-                          <xsl:choose>
-                            <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NonUniqueLastName">
-                              <xsl:call-template name="templ_prop_APA_CitationLong_ML"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                              <xsl:call-template name="templ_prop_APA_CitationShort_ML"/>
-                            </xsl:otherwise>
-                          </xsl:choose>
-                        </xsl:with-param>
-                        <xsl:with-param name="FL">
-                          <xsl:choose>
-                            <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NonUniqueLastName">
-                              <xsl:call-template name="templ_prop_APA_CitationLong_FL"/>
-                            </xsl:when>
-                            <xsl:otherwise>
-                              <xsl:call-template name="templ_prop_APA_CitationShort_FL"/>
-                            </xsl:otherwise>
-                          </xsl:choose>
-                        </xsl:with-param>
-                        <xsl:with-param name="upperLast">no</xsl:with-param>
-                        <xsl:with-param name="withDot">no</xsl:with-param>
-                      </xsl:call-template>
-                    </xsl:if>
+                  <xsl:call-template name="StringFormat">
+                    <xsl:with-param name="format" select="$str_PatentNumberShortCap"/>
+                    <xsl:with-param name="parameters">
+                      <t:params>
+                        <t:param>
+                          <xsl:value-of select="$patentNumber"/>
+                        </t:param>
+                      </t:params>
+                    </xsl:with-param>
+                  </xsl:call-template>
+                </xsl:if>
+              </xsl:variable>
 
-                    <xsl:if test="position() > 1 and $cAuthors &lt;= $maxCitationAuthors">
-                      <xsl:call-template name="formatNameCore">
-                        <xsl:with-param name="FML"><xsl:call-template name="templ_prop_APA_CitationShort_FML"/></xsl:with-param>
-                        <xsl:with-param name="FM"><xsl:call-template name="templ_prop_APA_CitationShort_FM"/></xsl:with-param>
-                        <xsl:with-param name="ML"><xsl:call-template name="templ_prop_APA_CitationShort_ML"/></xsl:with-param>
-                        <xsl:with-param name="FL"><xsl:call-template name="templ_prop_APA_CitationShort_FL"/></xsl:with-param>
-                        <xsl:with-param name="upperLast">no</xsl:with-param>
-                        <xsl:with-param name="withDot">no</xsl:with-param>
-                      </xsl:call-template>
-                    </xsl:if>
+              <xsl:variable name="maxCitationAuthors" select="2"/>
 
-                    <xsl:if test="$cAuthors > $maxCitationAuthors">
+              <xsl:variable name="author0">
+                <xsl:choose>
+                  <xsl:when test="string-length(msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Author/b:Main/b:Corporate) > 0">
+                    <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Author/b:Main/b:Corporate" />
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:variable name="cAuthors">
+                      <xsl:value-of select="count(msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Author/b:Main/b:NameList/b:Person)" />
+                    </xsl:variable>
+
+                    <xsl:for-each select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Author/b:Main/b:NameList/b:Person">
                       <xsl:if test="position() = 1">
-                        <xsl:variable name="noCommaBeforeAnd">
-                          <xsl:call-template name="templ_prop_NoCommaBeforeAnd" />
-                        </xsl:variable>
-
-                        <xsl:choose>
-                          <xsl:when test="$noCommaBeforeAnd != 'yes'">
-                            <xsl:call-template name="templ_prop_Space"/>
-                          </xsl:when>
-                          <xsl:otherwise>
-                            <xsl:call-template name="templ_prop_Space"/>
-                          </xsl:otherwise>
-                        </xsl:choose>
-
-                        <xsl:call-template name="templ_str_AndOthersUnCap"/>
+                        <xsl:call-template name="formatNameCore">
+                          <xsl:with-param name="FML">
+                            <xsl:choose>
+                              <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NonUniqueLastName">
+                                <xsl:call-template name="templ_prop_APA_CitationLong_FML"/>
+                              </xsl:when>
+                              <xsl:otherwise>
+                                <xsl:call-template name="templ_prop_APA_CitationShort_FML"/>
+                              </xsl:otherwise>
+                            </xsl:choose>
+                          </xsl:with-param>
+                          <xsl:with-param name="FM">
+                            <xsl:choose>
+                              <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NonUniqueLastName">
+                                <xsl:call-template name="templ_prop_APA_CitationLong_FM"/>
+                              </xsl:when>
+                              <xsl:otherwise>
+                                <xsl:call-template name="templ_prop_APA_CitationShort_FM"/>
+                              </xsl:otherwise>
+                            </xsl:choose>
+                          </xsl:with-param>
+                          <xsl:with-param name="ML">
+                            <xsl:choose>
+                              <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NonUniqueLastName">
+                                <xsl:call-template name="templ_prop_APA_CitationLong_ML"/>
+                              </xsl:when>
+                              <xsl:otherwise>
+                                <xsl:call-template name="templ_prop_APA_CitationShort_ML"/>
+                              </xsl:otherwise>
+                            </xsl:choose>
+                          </xsl:with-param>
+                          <xsl:with-param name="FL">
+                            <xsl:choose>
+                              <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NonUniqueLastName">
+                                <xsl:call-template name="templ_prop_APA_CitationLong_FL"/>
+                              </xsl:when>
+                              <xsl:otherwise>
+                                <xsl:call-template name="templ_prop_APA_CitationShort_FL"/>
+                              </xsl:otherwise>
+                            </xsl:choose>
+                          </xsl:with-param>
+                          <xsl:with-param name="upperLast">no</xsl:with-param>
+                          <xsl:with-param name="withDot">no</xsl:with-param>
+                        </xsl:call-template>
                       </xsl:if>
-                    </xsl:if>
 
-                    <xsl:if test="$cAuthors &lt;= $maxCitationAuthors">
-                      <xsl:if test="position() = $cAuthors - 1">
-                        <xsl:if test="$cAuthors = 2">
-                          <xsl:call-template name="templ_prop_Space"/>
-                          <xsl:call-template name="templ_prop_APA_BeforeLastAuthor"/>
-                          <xsl:call-template name="templ_prop_Space"/>
-                        </xsl:if>
+                      <xsl:if test="position() > 1 and $cAuthors &lt;= $maxCitationAuthors">
+                        <xsl:call-template name="formatNameCore">
+                          <xsl:with-param name="FML"><xsl:call-template name="templ_prop_APA_CitationShort_FML"/></xsl:with-param>
+                          <xsl:with-param name="FM"><xsl:call-template name="templ_prop_APA_CitationShort_FM"/></xsl:with-param>
+                          <xsl:with-param name="ML"><xsl:call-template name="templ_prop_APA_CitationShort_ML"/></xsl:with-param>
+                          <xsl:with-param name="FL"><xsl:call-template name="templ_prop_APA_CitationShort_FL"/></xsl:with-param>
+                          <xsl:with-param name="upperLast">no</xsl:with-param>
+                          <xsl:with-param name="withDot">no</xsl:with-param>
+                        </xsl:call-template>
+                      </xsl:if>
 
-                        <xsl:if test="$cAuthors > 2">
+                      <xsl:if test="$cAuthors > $maxCitationAuthors">
+                        <xsl:if test="position() = 1">
                           <xsl:variable name="noCommaBeforeAnd">
                             <xsl:call-template name="templ_prop_NoCommaBeforeAnd" />
                           </xsl:variable>
 
-                          <xsl:variable name="noAndBeforeLastAuthor">
-                            <xsl:call-template name="templ_prop_NoAndBeforeLastAuthor"/>
-                          </xsl:variable>
-
                           <xsl:choose>
-                            <xsl:when test="$noCommaBeforeAnd != 'yes' or $noAndBeforeLastAuthor = 'yes'">
-                              <xsl:call-template name="templ_prop_AuthorsSeparator"/>
+                            <xsl:when test="$noCommaBeforeAnd != 'yes'">
+                              <xsl:call-template name="templ_prop_Space"/>
                             </xsl:when>
                             <xsl:otherwise>
                               <xsl:call-template name="templ_prop_Space"/>
                             </xsl:otherwise>
                           </xsl:choose>
 
-                          <xsl:if test="$noAndBeforeLastAuthor != 'yes'">
-                            <xsl:call-template name="templ_prop_APA_BeforeLastAuthor"/>
-                            <xsl:call-template name="templ_prop_Space"/>
-                          </xsl:if>
+                          <xsl:call-template name="templ_str_AndOthersUnCap"/>
                         </xsl:if>
                       </xsl:if>
 
+                      <xsl:if test="$cAuthors &lt;= $maxCitationAuthors">
+                        <xsl:if test="position() = $cAuthors - 1">
+                          <xsl:if test="$cAuthors = 2">
+                            <xsl:call-template name="templ_prop_Space"/>
+                            <xsl:call-template name="templ_prop_APA_BeforeLastAuthor"/>
+                            <xsl:call-template name="templ_prop_Space"/>
+                          </xsl:if>
 
-                    </xsl:if>
-                  </xsl:for-each>
-                </xsl:otherwise>
-              </xsl:choose>
-            </xsl:variable>
+                          <xsl:if test="$cAuthors > 2">
+                            <xsl:variable name="noCommaBeforeAnd">
+                              <xsl:call-template name="templ_prop_NoCommaBeforeAnd" />
+                            </xsl:variable>
 
-            <xsl:variable name="title">
-              <xsl:choose>
-                <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NoTitle">
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:value-of select="$title0" />
-                </xsl:otherwise>
-              </xsl:choose>
-            </xsl:variable>
+                            <xsl:variable name="noAndBeforeLastAuthor">
+                              <xsl:call-template name="templ_prop_NoAndBeforeLastAuthor"/>
+                            </xsl:variable>
 
-            <xsl:variable name="year">
-              <xsl:choose>
-                <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NoYear">
-                </xsl:when>
+                            <xsl:choose>
+                              <xsl:when test="$noCommaBeforeAnd != 'yes' or $noAndBeforeLastAuthor = 'yes'">
+                                <xsl:call-template name="templ_prop_AuthorsSeparator"/>
+                              </xsl:when>
+                              <xsl:otherwise>
+                                <xsl:call-template name="templ_prop_Space"/>
+                              </xsl:otherwise>
+                            </xsl:choose>
 
-                <xsl:when test="$type='InternetSite'">
-                  <xsl:if test="string-length($year0) > 0">
-                    <xsl:value-of select="$year0" />
-                  </xsl:if>
-                  <xsl:if test="string-length($year0) = 0">
-                    <xsl:call-template name="templ_str_NoDateShortUnCap"/>
-                  </xsl:if>
-                </xsl:when>
+                            <xsl:if test="$noAndBeforeLastAuthor != 'yes'">
+                              <xsl:call-template name="templ_prop_APA_BeforeLastAuthor"/>
+                              <xsl:call-template name="templ_prop_Space"/>
+                            </xsl:if>
+                          </xsl:if>
+                        </xsl:if>
 
-                <xsl:otherwise>
-                  <xsl:value-of select="$year0" />
-                </xsl:otherwise>
-              </xsl:choose>
-            </xsl:variable>
 
-            <xsl:variable name="author">
-              <xsl:choose>
-                <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NoAuthor">
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:value-of select="$author0" />
-                </xsl:otherwise>
-              </xsl:choose>
-            </xsl:variable>
-
-            <xsl:variable name="prop_APA_Hyphens">
-              <xsl:call-template name="templ_prop_Hyphens"/>
-            </xsl:variable>
-
-            <xsl:variable name="volume" select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Volume"/>
-
-            <xsl:variable name="volVolume">
-              <xsl:if test="string-length($volume) > 0">
-                <xsl:call-template name="StringFormat">
-                  <xsl:with-param name="format">
-                    <xsl:choose>
-                      <xsl:when test="not(string-length($volume)=string-length(translate($volume, ',', '')))">
-                        <xsl:call-template name="templ_str_VolumesShortUnCap"/>
-                      </xsl:when>
-                      <xsl:when test="string-length($volume)=string-length(translate($volume, $prop_APA_Hyphens, ''))">
-                        <xsl:call-template name="templ_str_VolumeShortUnCap"/>
-                      </xsl:when>
-                      <xsl:otherwise>
-                        <xsl:call-template name="templ_str_VolumesShortUnCap"/>
-                      </xsl:otherwise>
-                    </xsl:choose>
-                  </xsl:with-param>
-                  <xsl:with-param name="parameters">
-                    <t:params>
-                      <t:param>
-                        <xsl:value-of select="$volume"/>
-                      </t:param>
-                    </t:params>
-                  </xsl:with-param>
-                </xsl:call-template>
-              </xsl:if>
-            </xsl:variable>
-
-            <xsl:variable name="pages" select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Pages"/>
-
-            <xsl:variable name="ppPages">
-              <xsl:if test="string-length($pages)>0">
-                <xsl:choose>
-                  <xsl:when test="not(string-length($pages)=string-length(translate($pages, ',', '')))">
-                    <xsl:call-template name="templ_str_PagesCountinousShort"/>
-                  </xsl:when>
-                  <xsl:when test="string-length($pages)=string-length(translate($pages, $prop_APA_Hyphens, ''))">
-                    <xsl:call-template name="templ_str_PageShort"/>
-                  </xsl:when>
-                  <xsl:otherwise>
-                    <xsl:call-template name="templ_str_PagesCountinousShort"/>
+                      </xsl:if>
+                    </xsl:for-each>
                   </xsl:otherwise>
                 </xsl:choose>
-                <xsl:call-template name="templ_prop_Space"/>
-                <xsl:value-of select="$pages"/>
+              </xsl:variable>
+
+              <xsl:variable name="title">
+                <xsl:choose>
+                  <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NoTitle">
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="$title0" />
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:variable>
+
+              <xsl:variable name="year">
+                <xsl:choose>
+                  <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NoYear">
+                  </xsl:when>
+
+                  <xsl:when test="$type='InternetSite'">
+                    <xsl:if test="string-length($year0) > 0">
+                      <xsl:value-of select="$year0" />
+                    </xsl:if>
+                    <xsl:if test="string-length($year0) = 0">
+                      <xsl:call-template name="templ_str_NoDateShortUnCap"/>
+                    </xsl:if>
+                  </xsl:when>
+
+                  <xsl:otherwise>
+                    <xsl:value-of select="$year0" />
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:variable>
+
+              <xsl:variable name="author">
+                <xsl:choose>
+                  <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NoAuthor">
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="$author0" />
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:variable>
+
+              <xsl:variable name="prop_APA_Hyphens">
+                <xsl:call-template name="templ_prop_Hyphens"/>
+              </xsl:variable>
+
+              <xsl:variable name="volume" select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Volume"/>
+
+              <xsl:variable name="volVolume">
+                <xsl:if test="string-length($volume) > 0">
+                  <xsl:call-template name="StringFormat">
+                    <xsl:with-param name="format">
+                      <xsl:choose>
+                        <xsl:when test="not(string-length($volume)=string-length(translate($volume, ',', '')))">
+                          <xsl:call-template name="templ_str_VolumesShortUnCap"/>
+                        </xsl:when>
+                        <xsl:when test="string-length($volume)=string-length(translate($volume, $prop_APA_Hyphens, ''))">
+                          <xsl:call-template name="templ_str_VolumeShortUnCap"/>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:call-template name="templ_str_VolumesShortUnCap"/>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </xsl:with-param>
+                    <xsl:with-param name="parameters">
+                      <t:params>
+                        <t:param>
+                          <xsl:value-of select="$volume"/>
+                        </t:param>
+                      </t:params>
+                    </xsl:with-param>
+                  </xsl:call-template>
+                </xsl:if>
+              </xsl:variable>
+
+              <xsl:variable name="pages" select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Pages"/>
+
+              <xsl:variable name="ppPages">
+                <xsl:if test="string-length($pages)>0">
+                  <xsl:choose>
+                    <xsl:when test="not(string-length($pages)=string-length(translate($pages, ',', '')))">
+                      <xsl:call-template name="templ_str_PagesCountinousShort"/>
+                    </xsl:when>
+                    <xsl:when test="string-length($pages)=string-length(translate($pages, $prop_APA_Hyphens, ''))">
+                      <xsl:call-template name="templ_str_PageShort"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:call-template name="templ_str_PagesCountinousShort"/>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                  <xsl:call-template name="templ_prop_Space"/>
+                  <xsl:value-of select="$pages"/>
+                </xsl:if>
+              </xsl:variable>
+
+              <xsl:variable name="displayAuthor">
+                <xsl:choose>
+                  <xsl:when test="$type='Patent' and string-length($patent) > 0">
+                    <xsl:value-of select="$patent" />
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="$author" />
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:variable>
+
+              <xsl:variable name="displayTitle">
+                <xsl:choose>
+                  <xsl:when test="string-length($displayAuthor) = 0">
+                    <xsl:value-of select="$title" />
+                  </xsl:when>
+                  <xsl:when test="$type='Patent' and string-length($patent) > 0">
+                  </xsl:when>
+                  <!-- XXX bug: shows title only when RepeatedAuthor -->
+                  <!--
+                  <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:RepeatedAuthor">
+                    <xsl:value-of select="$title" />
+                  </xsl:when>
+                  -->
+                  <xsl:otherwise>
+                    <xsl:value-of select="$title" />
+                  </xsl:otherwise>
+                  <!-- end of patch XXX -->
+                </xsl:choose>
+              </xsl:variable>
+
+              <xsl:if test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:FirstAuthor">
+                <xsl:call-template name="templ_prop_OpenBracket"/>
               </xsl:if>
-            </xsl:variable>
 
-            <xsl:variable name="displayAuthor">
-              <xsl:choose>
-                <xsl:when test="$type='Patent' and string-length($patent) > 0">
-                  <xsl:value-of select="$patent" />
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:value-of select="$author" />
-                </xsl:otherwise>
-              </xsl:choose>
-            </xsl:variable>
-
-            <xsl:variable name="displayTitle">
-              <xsl:choose>
-                <xsl:when test="string-length($displayAuthor) = 0">
-                  <xsl:value-of select="$title" />
-                </xsl:when>
-                <xsl:when test="$type='Patent' and string-length($patent) > 0">
-                </xsl:when>
-                <!-- XXX bug: shows title only when RepeatedAuthor -->
-                <!--
-                <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:RepeatedAuthor">
-                  <xsl:value-of select="$title" />
-                </xsl:when>
-                -->
-                <xsl:otherwise>
-                  <xsl:value-of select="$title" />
-                </xsl:otherwise>
-                <!-- end of patch XXX -->
-              </xsl:choose>
-            </xsl:variable>
-
-            <xsl:if test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:FirstAuthor">
-              <xsl:call-template name="templ_prop_OpenBracket"/>
-            </xsl:if>
-
-            <xsl:if test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:PagePrefix">
-              <xsl:value-of select="/b:Citation/b:PagePrefix"/>
-            </xsl:if>
-
-            <xsl:value-of select="$displayAuthor" />
-
-            <xsl:if test="string-length($displayTitle) > 0">
-              <xsl:if test="string-length($displayAuthor) > 0">
-                <xsl:call-template name="templ_prop_ListSeparator"/>
+              <xsl:if test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:PagePrefix">
+                <xsl:value-of select="/b:Citation/b:PagePrefix"/>
               </xsl:if>
-              <xsl:if test="string-length($displayTitle)>0">
-                <xsl:value-of select="$displayTitle"/>
-              </xsl:if>
-            </xsl:if>
 
-            <xsl:if test="string-length($year) > 0">
-              <xsl:if test="string-length($author0) > 0 or string-length($title0) > 0 or string-length($year0) > 0">
-                <xsl:if test="string-length($displayAuthor) > 0 or string-length($displayTitle) > 0">
+              <xsl:value-of select="$displayAuthor" />
+
+              <xsl:if test="string-length($displayTitle) > 0">
+                <xsl:if test="string-length($displayAuthor) > 0">
                   <xsl:call-template name="templ_prop_ListSeparator"/>
                 </xsl:if>
-                <xsl:value-of select="$year"/>
-              </xsl:if>
-            </xsl:if>
-
-            <xsl:if test="string-length($author0) = 0 and string-length($title0) = 0 and string-length($year0) = 0">
-              <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Tag"/>
-            </xsl:if>
-
-            <xsl:if test="string-length($volume) > 0 or string-length($pages) > 0">
-              <xsl:if test="string-length($displayAuthor) > 0 or string-length($displayTitle) > 0 or string-length($year) > 0">
-                <xsl:call-template name="templ_prop_ListSeparator"/>
+                <xsl:if test="string-length($displayTitle)>0">
+                  <xsl:value-of select="$displayTitle"/>
+                </xsl:if>
               </xsl:if>
 
-              <xsl:choose>
-                <xsl:when test="string-length($volume) > 0 and string-length($pages) > 0">
-                  <xsl:value-of select="$volume"/>
-                  <xsl:call-template name="templ_prop_Enum"/>
-                  <xsl:value-of select="$pages"/>
-                </xsl:when>
-                <xsl:when test="string-length($volVolume) > 0">
-                  <xsl:value-of select="$volVolume"/>
-                </xsl:when>
-                <xsl:when test="string-length($ppPages) > 0">
-                  <xsl:value-of select="$ppPages"/>
-                </xsl:when>
-              </xsl:choose>
-            </xsl:if>
+              <xsl:if test="string-length($year) > 0">
+                <xsl:if test="string-length($author0) > 0 or string-length($title0) > 0 or string-length($year0) > 0">
+                  <xsl:if test="string-length($displayAuthor) > 0 or string-length($displayTitle) > 0">
+                    <xsl:call-template name="templ_prop_ListSeparator"/>
+                  </xsl:if>
+                  <xsl:value-of select="$year"/>
+                </xsl:if>
+              </xsl:if>
 
-            <xsl:if test="/b:Citation/b:PageSuffix">
-              <xsl:value-of select="/b:Citation/b:PageSuffix"/>
-            </xsl:if>
-            <xsl:if test="/b:Citation/b:LastAuthor">
-              <xsl:call-template name="templ_prop_CloseBracket"/>
-            </xsl:if>
-            <xsl:if test="not(/b:Citation/b:LastAuthor)">
-              <xsl:call-template name="templ_prop_GroupSeparator"/>
-            </xsl:if>
+              <xsl:if test="string-length($author0) = 0 and string-length($title0) = 0 and string-length($year0) = 0">
+                <xsl:value-of select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Tag"/>
+              </xsl:if>
+
+              <xsl:if test="string-length($volume) > 0 or string-length($pages) > 0">
+                <xsl:if test="string-length($displayAuthor) > 0 or string-length($displayTitle) > 0 or string-length($year) > 0">
+                  <xsl:call-template name="templ_prop_ListSeparator"/>
+                </xsl:if>
+
+                <xsl:choose>
+                  <xsl:when test="string-length($volume) > 0 and string-length($pages) > 0">
+                    <xsl:value-of select="$volume"/>
+                    <xsl:call-template name="templ_prop_Enum"/>
+                    <xsl:value-of select="$pages"/>
+                  </xsl:when>
+                  <xsl:when test="string-length($volVolume) > 0">
+                    <xsl:value-of select="$volVolume"/>
+                  </xsl:when>
+                  <xsl:when test="string-length($ppPages) > 0">
+                    <xsl:value-of select="$ppPages"/>
+                  </xsl:when>
+                </xsl:choose>
+              </xsl:if>
+
+              <xsl:if test="/b:Citation/b:PageSuffix">
+                <xsl:value-of select="/b:Citation/b:PageSuffix"/>
+              </xsl:if>
+              <xsl:if test="/b:Citation/b:LastAuthor">
+                <xsl:call-template name="templ_prop_CloseBracket"/>
+              </xsl:if>
+              <xsl:if test="not(/b:Citation/b:LastAuthor)">
+                <xsl:call-template name="templ_prop_GroupSeparator"/>
+              </xsl:if>
 
             </xsl:element>
           </body>
@@ -6092,43 +6092,42 @@
 
 
   <xsl:template name="copyNameNodes">
-  <xsl:if test="string-length(b:Corporate)=0">
-    <b:NameList>
-      <xsl:for-each select="b:NameList/b:Person">
+    <xsl:if test="string-length(b:Corporate)=0">
+      <b:NameList>
+        <xsl:for-each select="b:NameList/b:Person">
 
-      <b:Person>
+        <b:Person>
 
-        <xsl:if test="string-length(./b:Last)>0">
+          <xsl:if test="string-length(./b:Last)>0">
 
-        <b:Last>
-          <xsl:value-of select="./b:Last"/>
-        </b:Last>
-        </xsl:if>
-        <xsl:if test="string-length(./b:First)>0">
-        <b:First>
-          <xsl:value-of select="./b:First"/>
-        </b:First>
-        </xsl:if>
-        <xsl:if test="string-length(./b:Middle)>0">
-        <b:Middle>
-          <xsl:value-of select="./b:Middle"/>
-        </b:Middle>
-        </xsl:if>
-      </b:Person>
-      </xsl:for-each>
-    </b:NameList>
-  </xsl:if>
-  <xsl:if test="string-length(b:Corporate)>0">
-    <b:Corporate>
-      <xsl:value-of select="b:Corporate"/>
-    </b:Corporate>
-  </xsl:if>
+          <b:Last>
+            <xsl:value-of select="./b:Last"/>
+          </b:Last>
+          </xsl:if>
+          <xsl:if test="string-length(./b:First)>0">
+          <b:First>
+            <xsl:value-of select="./b:First"/>
+          </b:First>
+          </xsl:if>
+          <xsl:if test="string-length(./b:Middle)>0">
+          <b:Middle>
+            <xsl:value-of select="./b:Middle"/>
+          </b:Middle>
+          </xsl:if>
+        </b:Person>
+        </xsl:for-each>
+      </b:NameList>
+    </xsl:if>
+    <xsl:if test="string-length(b:Corporate)>0">
+      <b:Corporate>
+        <xsl:value-of select="b:Corporate"/>
+      </b:Corporate>
+    </xsl:if>
   </xsl:template>
 
 
   <xsl:template name="copyNodes">
     <xsl:value-of select="."/>
-
   </xsl:template>
 
   <xsl:template name="copyNodes2">
