@@ -1922,7 +1922,14 @@
         <xsl:with-param name="LCID" select="$LCID"/>
       </xsl:call-template>
     </xsl:variable>
-    <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$_LCID]/b:APA/b:BeforeLastAuthor"/>
+    <xsl:choose>
+      <xsl:when test = "$_LCID = '1042'">
+        <xsl:text></xsl:text><!-- XXX do not add "&" for ko-KR XXX-->
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$_LCID]/b:APA/b:BeforeLastAuthor"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 
@@ -5665,7 +5672,7 @@
     <xsl:apply-templates select="msxsl:node-set($sourceRoot)/*">
 
       <!-- XXX add language code -->
-      <xsl:sort select="b:SortingString" order="descending" lang="ko"/>
+      <xsl:sort select="b:SortingString" order="descending"/>
 
     </xsl:apply-templates>
 
@@ -8333,41 +8340,49 @@
 
   </xsl:template>
 
+  <!-- XXX when you need bold instead of italic, for certain language -->
+  <xsl:variable name="notItalicThenBold" select="yes"/>
+
   <xsl:template name="ApplyItalicTitleNS">
     <xsl:param name="data" />
 
       <xsl:variable name="prop_NoItalics">
-        <!--xsl:call-template name="templ_prop_NoItalics"/-->
+        <xsl:call-template name="templ_prop_NoItalics"/>
       </xsl:variable>
 
     <xsl:choose>
       <xsl:when test = "$prop_NoItalics = 'yes'">
         <xsl:variable name = "prop_TitleOpen">
-              <xsl:call-template name="templ_prop_TitleOpen"/>
+          <xsl:call-template name="templ_prop_TitleOpen"/>
         </xsl:variable>
         <xsl:variable name = "prop_TitleClose">
-              <xsl:call-template name="templ_prop_TitleClose"/>
+          <xsl:call-template name="templ_prop_TitleClose"/>
         </xsl:variable>
         <xsl:variable name = "prop_OpenQuote">
-              <xsl:call-template name="templ_prop_OpenQuote"/>
+          <xsl:call-template name="templ_prop_OpenQuote"/>
         </xsl:variable>
         <xsl:variable name = "prop_CloseQuote">
-              <xsl:call-template name="templ_prop_CloseQuote"/>
+          <xsl:call-template name="templ_prop_CloseQuote"/>
         </xsl:variable>
         <xsl:choose>
+          <xsl:when test="$notItalicThenBold = yes">
+            <b xmlns="http://www.w3.org/TR/REC-html40">
+              <xsl:copy-of select="msxsl:node-set($data)" />
+            </b>
+          </xsl:when>
           <xsl:when test = "string-length($prop_TitleOpen) > 0 and string-length($prop_TitleClose) > 0 and string-length($prop_OpenQuote) > 0 and string-length($prop_CloseQuote) > 0 and
                         not(starts-with($data, $prop_TitleOpen) or (substring($data, string-length($data) - string-length($prop_TitleClose)) = $prop_TitleClose) or starts-with($data, $prop_OpenQuote) or (substring($data, string-length($data) - string-length($prop_CloseQuote)) = $prop_CloseQuote))">
-                <xsl:call-template name="templ_prop_TitleOpen"/>
+            <xsl:call-template name="templ_prop_TitleOpen"/>
             <xsl:copy-of select="msxsl:node-set($data)" />
             <xsl:call-template name="templ_prop_TitleClose"/>
           </xsl:when>
           <xsl:when test = "string-length($prop_TitleOpen) > 0 and string-length($prop_TitleClose) > 0 and
                         not(starts-with($data, $prop_TitleOpen) or (substring($data, string-length($data) - string-length($prop_TitleClose)) = $prop_TitleClose))">
-                <xsl:call-template name="templ_prop_TitleOpen"/>
+            <xsl:call-template name="templ_prop_TitleOpen"/>
             <xsl:copy-of select="msxsl:node-set($data)" />
             <xsl:call-template name="templ_prop_TitleClose"/>
           </xsl:when>
-              <xsl:otherwise>
+          <xsl:otherwise>
             <xsl:copy-of select="msxsl:node-set($data)" />
           </xsl:otherwise>
         </xsl:choose>
@@ -8384,16 +8399,18 @@
     <xsl:param name="data" />
 
       <xsl:variable name="prop_NoItalics">
-        <!--xsl:call-template name="templ_prop_NoItalics"/-->
+        <xsl:call-template name="templ_prop_NoItalics"/>
       </xsl:variable>
 
     <xsl:choose>
       <xsl:when test = "$prop_NoItalics = 'yes'">
-        <xsl:copy-of select="msxsl:node-set($data)" />
+        <b xmlns="http://www.w3.org/TR/REC-html40">
+          <xsl:copy-of select="msxsl:node-set($data)" />
+        </b>
       </xsl:when>
       <xsl:otherwise>
         <i xmlns="http://www.w3.org/TR/REC-html40">
-        <xsl:copy-of select="msxsl:node-set($data)" />
+          <xsl:copy-of select="msxsl:node-set($data)" />
         </i>
       </xsl:otherwise>
     </xsl:choose>
