@@ -8341,7 +8341,7 @@
   </xsl:template>
 
   <!-- XXX when you need bold instead of italic, for certain language -->
-  <xsl:variable name="notItalicThenBold" select="yes"/>
+  <xsl:variable name="notItalicThenBold" select="'yes'"/>
 
   <xsl:template name="ApplyItalicTitleNS">
     <xsl:param name="data" />
