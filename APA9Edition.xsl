@@ -1922,14 +1922,7 @@
         <xsl:with-param name="LCID" select="$LCID"/>
       </xsl:call-template>
     </xsl:variable>
-    <xsl:choose>
-      <xsl:when test = "$_LCID = '1042'">
-        <xsl:text></xsl:text><!-- XXX do not add "&" for ko-KR XXX-->
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$_LCID]/b:APA/b:BeforeLastAuthor"/>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$_LCID]/b:APA/b:BeforeLastAuthor"/>
   </xsl:template>
 
 
@@ -8346,8 +8339,10 @@
   <xsl:template name="ApplyItalicTitleNS">
     <xsl:param name="data" />
 
+      <!-- XXX force italic -->
       <xsl:variable name="prop_NoItalics">
-        <xsl:call-template name="templ_prop_NoItalics"/>
+        <!-- xsl:call-template name="templ_prop_NoItalics"/-->
+        <xsl:value-of select="'no'"/>
       </xsl:variable>
 
     <xsl:choose>
@@ -8365,7 +8360,7 @@
           <xsl:call-template name="templ_prop_CloseQuote"/>
         </xsl:variable>
         <xsl:choose>
-          <xsl:when test="$notItalicThenBold = yes">
+          <xsl:when test="$notItalicThenBold = 'yes'">
             <b xmlns="http://www.w3.org/TR/REC-html40">
               <xsl:copy-of select="msxsl:node-set($data)" />
             </b>
