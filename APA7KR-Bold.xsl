@@ -2127,7 +2127,7 @@
       </xsl:when>
 
       <xsl:when test="b:XslVersion">
-        <xsl:text>20241026</xsl:text>
+        <xsl:text>20241030</xsl:text>
       </xsl:when>
 
       <xsl:when test="b:StyleNameLocalized">
@@ -3155,7 +3155,7 @@
                       <xsl:value-of select="'margin-right:.5in;text-indent:-.5in'"/>
                     </xsl:when>
                     <xsl:otherwise>
-                      <xsl:value-of select="'margin-left:.5in;text-indent:-.5in'"/>
+                      <xsl:value-of select="'margin-left:.4in;text-indent:-.5in;margin-right:-4mm'"/>
                     </xsl:otherwise>
                   </xsl:choose>
                 </xsl:attribute>
@@ -5639,7 +5639,7 @@
                   </xsl:when>
                 </xsl:choose>
 
-        <!-- XXX -->
+        <!-- XXX comments -->
                 <xsl:if test="string-length(b:Comments)>0">
                   <xsl:call-template name="templ_prop_Space"/>
                   <xsl:copy-of select="b:Comments"/>
@@ -8359,9 +8359,6 @@
           <xsl:when test="substring($data, string-length($data) - string-length($thisDot) + 1) = $thisDot">
             <xsl:copy-of select="$thisDot"/>
           </xsl:when>
-          <xsl:otherwise>
-            <xsl:text>XXX</xsl:text>
-          </xsl:otherwise>
         </xsl:choose>
       </xsl:variable>
 
@@ -8382,7 +8379,7 @@
 
         <xsl:choose>
           <xsl:when test="$prop_NoItalics = 'yes'">
-            <b xmlns="http://www.w3.org/TR/REC-html40">
+            <b xmlns="http://www.w3.org/TR/REC-html40" style="color:#000000">
               <xsl:copy-of select="$titleWithoutPossibleDot" />
             </b>
             <xsl:copy-of select="$possibleDot"/>

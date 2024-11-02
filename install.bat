@@ -1,0 +1,1 @@
+copy APA7KR-Bold.xsl %APPDATA%\Microsoft\Bibliography\Style
