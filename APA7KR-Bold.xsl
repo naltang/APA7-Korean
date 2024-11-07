@@ -2127,7 +2127,7 @@
       </xsl:when>
 
       <xsl:when test="b:XslVersion">
-        <xsl:text>20241030</xsl:text>
+        <xsl:text>20241101</xsl:text>
       </xsl:when>
 
       <xsl:when test="b:StyleNameLocalized">
