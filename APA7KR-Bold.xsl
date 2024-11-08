@@ -2127,7 +2127,7 @@
       </xsl:when>
 
       <xsl:when test="b:XslVersion">
-        <xsl:text>20241101</xsl:text>
+        <xsl:text>20241107</xsl:text>
       </xsl:when>
 
       <xsl:when test="b:StyleNameLocalized">
@@ -5641,8 +5641,13 @@
 
         <!-- XXX comments -->
                 <xsl:if test="string-length(b:Comments)>0">
+                  <xsl:variable name="comments">
+                    <xsl:call-template name="handleSpaces">
+                      <xsl:with-param name="field" select="b:Comments"/>
+                    </xsl:call-template>
+                  </xsl:variable>
                   <xsl:call-template name="templ_prop_Space"/>
-                  <xsl:copy-of select="b:Comments"/>
+                  <xsl:copy-of select="$comments"/>
                 </xsl:if>
 
               </xsl:element>
