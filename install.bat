@@ -1,1 +1,1 @@
-copy APA7KR-Bold.xsl %APPDATA%\Microsoft\Bibliography\Style
+copy APA7-Bold.xsl %APPDATA%\Microsoft\Bibliography\Style
