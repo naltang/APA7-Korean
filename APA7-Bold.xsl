@@ -2926,18 +2926,13 @@
                 <xsl:choose>
                   <xsl:when test="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:NoYear">
                   </xsl:when>
-
-                  <xsl:when test="$type='InternetSite'">
+                  <xsl:otherwise>
                     <xsl:if test="string-length($year0) > 0">
                       <xsl:value-of select="$year0" />
                     </xsl:if>
                     <xsl:if test="string-length($year0) = 0">
                       <xsl:call-template name="templ_str_NoDateShortUnCap"/>
                     </xsl:if>
-                  </xsl:when>
-
-                  <xsl:otherwise>
-                    <xsl:value-of select="$year0" />
                   </xsl:otherwise>
                 </xsl:choose>
               </xsl:variable>
