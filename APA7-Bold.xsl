@@ -3153,6 +3153,13 @@
               <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
               <xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'"/>
 
+              <xsl:variable name="prop_APA_GeneralOpen">
+                <xsl:call-template name="templ_prop_APA_GeneralOpen"/>
+              </xsl:variable>
+              <xsl:variable name="prop_APA_GeneralClose">
+                <xsl:call-template name="templ_prop_APA_GeneralClose"/>
+              </xsl:variable>
+
               <xsl:element name="p">
                 <xsl:attribute name="lang">
                   <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$LCID]/@Culture"/>
@@ -3622,47 +3629,54 @@
                   </xsl:call-template>
                 </xsl:variable>
 
-                <xsl:variable name="i_titleEditionVolumeDot">
+                <xsl:variable name="i_titleEditionVolume">
                   <xsl:if test="string-length($title)>0">
                     <xsl:call-template name = "ApplyItalicTitleNS">
                       <xsl:with-param name = "data">
-                        <xsl:if test="string-length($edition)>0 or string-length($prefixVolumeCap)>0">
-                          <xsl:value-of select="$title"/>
-                        </xsl:if>
-                        <xsl:if test="string-length($edition)=0 and string-length($prefixVolumeCap)=0">
-                          <xsl:value-of select="$titleDot"/>
-                        </xsl:if>
+                        <xsl:value-of select="$title"/>
                       </xsl:with-param>
                     </xsl:call-template>
 
                     <xsl:if test="string-length($edition)>0 or string-length($prefixVolumeCap)>0">
                       <xsl:call-template name="templ_prop_Space"/>
-                      <xsl:call-template name="templ_prop_APA_GeneralOpen"/>
-
-                      <xsl:if test="string-length($edition)>0">
-                        <xsl:call-template name="StringFormat">
-                          <xsl:with-param name="format">
-                            <xsl:call-template name="templ_str_EditionShortUnCap"/>
-                          </xsl:with-param>
-                          <xsl:with-param name="parameters">
-                            <t:params>
-                              <t:param>
-                                <xsl:value-of select="$edition"/>
-                              </t:param>
-                            </t:params>
-                          </xsl:with-param>
-                        </xsl:call-template>
+                      <xsl:if test="starts-with($edition, $prop_APA_GeneralOpen)">
+                        <xsl:value-of select="$edition"/>
                       </xsl:if>
 
-                      <xsl:if test="string-length($edition)>0 and string-length($prefixVolumeCap)>0">
-                        <xsl:call-template name="templ_prop_ListSeparator"/>
+                      <xsl:if test="not(starts-with($edition, $prop_APA_GeneralOpen))">
+                        <xsl:call-template name="templ_prop_APA_GeneralOpen"/>
+
+                        <xsl:if test="string-length($edition)>0">
+                            <xsl:call-template name="StringFormat">
+                            <xsl:with-param name="format">
+                                <xsl:call-template name="templ_str_EditionShortUnCap"/>
+                            </xsl:with-param>
+                            <xsl:with-param name="parameters">
+                                <t:params>
+                                <t:param>
+                                    <xsl:value-of select="$edition"/>
+                                </t:param>
+                                </t:params>
+                            </xsl:with-param>
+                            </xsl:call-template>
+                        </xsl:if>
+
+                        <xsl:if test="string-length($edition)>0 and string-length($prefixVolumeCap)>0">
+                            <xsl:call-template name="templ_prop_ListSeparator"/>
+                        </xsl:if>
+
+                        <xsl:value-of select="$prefixVolumeCap"/>
+
+                        <xsl:call-template name="templ_prop_APA_GeneralClose"/>
                       </xsl:if>
-
-                      <xsl:value-of select="$prefixVolumeCap"/>
-
-                      <xsl:call-template name="templ_prop_APA_GeneralClose"/>
-                      <xsl:call-template name="templ_prop_Dot"/>
                     </xsl:if>
+                  </xsl:if>
+                </xsl:variable>
+
+                <xsl:variable name="i_titleEditionVolumeDot">
+                  <xsl:if test="string-length($i_titleEditionVolume)>0">
+                      <xsl:value-of select="$i_titleEditionVolume"/>
+                      <xsl:call-template name="templ_prop_Dot"/>
                   </xsl:if>
                 </xsl:variable>
 
@@ -3869,7 +3883,7 @@
                   </xsl:choose>
                 </xsl:variable>
 
-                <xsl:variable name="theEditorAndTranslatorDot">
+                <xsl:variable name="theEditorAndTranslator">
                   <xsl:call-template name="formatManySecondary">
 
                     <xsl:with-param name="name1" select="$writeEditor"/>
@@ -3894,6 +3908,13 @@
                   </xsl:call-template>
                 </xsl:variable>
 
+                <xsl:variable name="theEditorAndTranslatorDot">
+                  <xsl:if test="string-length($theEditorAndTranslator)>0">
+                    <xsl:value-of select="$theEditorAndTranslator"/>
+                    <xsl:call-template name="templ_prop_Dot"/>
+                  </xsl:if>
+                </xsl:variable>
+
                 <xsl:variable name="theEditorEncTemp">
                   <xsl:call-template name="formatManySecondary">
 
@@ -3912,13 +3933,6 @@
                     </xsl:with-param>
 
                   </xsl:call-template>
-                </xsl:variable>
-
-                <xsl:variable name="prop_APA_GeneralOpen">
-                  <xsl:call-template name="templ_prop_APA_GeneralOpen"/>
-                </xsl:variable>
-                <xsl:variable name="prop_APA_GeneralClose">
-                  <xsl:call-template name="templ_prop_APA_GeneralClose"/>
                 </xsl:variable>
 
                 <xsl:variable name="theEditorEnc">
@@ -4424,15 +4438,16 @@
                             <xsl:value-of select="$enclosedDateDot"/>
                           </xsl:if>
 
-                          <xsl:if test="string-length($i_titleEditionVolumeDot)>0">
+                          <xsl:if test="string-length($i_titleEditionVolume)>0">
                             <xsl:call-template name="templ_prop_Space"/>
-                            <xsl:apply-templates select="msxsl:node-set($i_titleEditionVolumeDot)" mode="outputHtml"/>
+                            <xsl:apply-templates select="msxsl:node-set($i_titleEditionVolume)" mode="outputHtml"/>
                           </xsl:if>
 
-                          <xsl:if test="string-length($theEditorAndTranslatorDot)>0">
+                          <xsl:if test="string-length($theEditorAndTranslator)>0">
                             <xsl:call-template name="templ_prop_Space"/>
-                            <xsl:value-of select="$theEditorAndTranslatorDot"/>
+                            <xsl:value-of select="$theEditorAndTranslator"/>
                           </xsl:if>
+                          <xsl:call-template name="templ_prop_Dot"/>
 
                           <xsl:if test="string-length($tempCSCPu)>0">
                             <xsl:call-template name="templ_prop_Space"/>
@@ -4441,26 +4456,27 @@
                         </xsl:when>
 
                         <xsl:when test="string-length($theAuthorDot)=0">
-                          <xsl:if test="string-length($i_titleEditionVolumeDot)>0">
-                            <xsl:apply-templates select="msxsl:node-set($i_titleEditionVolumeDot)" mode="outputHtml"/>
+                          <xsl:if test="string-length($i_titleEditionVolume)>0">
+                            <xsl:apply-templates select="msxsl:node-set($i_titleEditionVolume)" mode="outputHtml"/>
                           </xsl:if>
 
+                          <xsl:if test="string-length($theEditorAndTranslator)>0">
+                            <xsl:if test="string-length($i_titleEditionVolume)>0">
+                              <xsl:call-template name="templ_prop_Space"/>
+                            </xsl:if>
+                            <xsl:value-of select="$theEditorAndTranslator"/>
+                          </xsl:if>
+                          <xsl:call-template name="templ_prop_Dot"/>
+
                           <xsl:if test="string-length($enclosedDateDot)>0">
-                            <xsl:if test="string-length($i_titleEditionVolumeDot)>0">
+                            <xsl:if test="string-length($i_titleEditionVolume)>0">
                               <xsl:call-template name="templ_prop_Space"/>
                             </xsl:if>
                             <xsl:value-of select="$enclosedDateDot"/>
                           </xsl:if>
 
-                          <xsl:if test="string-length($theEditorAndTranslatorDot)>0">
-                            <xsl:if test="string-length($i_titleEditionVolumeDot)>0 or string-length($enclosedDateDot)>0">
-                              <xsl:call-template name="templ_prop_Space"/>
-                            </xsl:if>
-                            <xsl:value-of select="$theEditorAndTranslatorDot"/>
-                          </xsl:if>
-
                           <xsl:if test="string-length($tempCSCPu)>0">
-                            <xsl:if test="string-length($i_titleEditionVolumeDot)>0 or string-length($enclosedDateDot)>0 or string-length($theEditorAndTranslatorDot)>0">
+                            <xsl:if test="string-length($i_titleEditionVolume)>0 or string-length($enclosedDateDot)>0 or string-length($theEditorAndTranslator)>0">
                               <xsl:call-template name="templ_prop_Space"/>
                             </xsl:if>
                             <xsl:value-of select="$tempCSCPu"/>
