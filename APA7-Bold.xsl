@@ -2991,6 +2991,9 @@
                     <xsl:when test="starts-with($pages, 'Definition')">
                       <!-- For 'definition' in an online dictionary. No need to print "pp" -->
                     </xsl:when>
+                    <xsl:when test="starts-with($pages, 'foreword')">
+                      <!-- For citation of 'foreword'. No need to print "pp" -->
+                    </xsl:when>
                     <xsl:when test="not(string-length($pages)=string-length(translate($pages, ',', '')))">
                       <xsl:call-template name="templ_str_PagesCountinousShort"/>
                     </xsl:when>
@@ -3222,7 +3225,6 @@
                 <xsl:variable name="tempRIDC">
                   <xsl:call-template name="templateRIDC"/>
                 </xsl:variable>
-
 
                 <xsl:variable name="tempICSC">
                   <xsl:call-template name="templateICSC"/>
@@ -3892,7 +3894,6 @@
                   </xsl:call-template>
                 </xsl:variable>
 
-
                 <xsl:variable name="theEditorEncTemp">
                   <xsl:call-template name="formatManySecondary">
 
@@ -4146,7 +4147,6 @@
                   </xsl:choose>
                 </xsl:variable>
 
-
                 <xsl:variable name="thePerformanceDirectorAndPerformerDot">
                   <xsl:call-template name="formatManySecondary">
 
@@ -4190,7 +4190,6 @@
                   </xsl:choose>
                 </xsl:variable>
 
-
                 <xsl:variable name="theMiscEditorAndTranslatorAndCompilerDot">
                   <xsl:call-template name="formatManySecondary">
 
@@ -4225,7 +4224,6 @@
                     </xsl:with-param>
                   </xsl:call-template>
                 </xsl:variable>
-
 
                 <xsl:variable name="theFilmProducerAndWriterAndDirectorDot">
                   <xsl:call-template name="formatManyMain">
@@ -4273,7 +4271,6 @@
                     </xsl:with-param>
                   </xsl:call-template>
                 </xsl:variable>
-
 
                 <xsl:variable name="theInterviewInterviewerAndEditorAndTranslator">
                   <xsl:call-template name="formatManySecondary">
@@ -4324,7 +4321,6 @@
                     </xsl:with-param>
                   </xsl:call-template>
                 </xsl:variable>
-
 
                 <xsl:variable name="theInternetSiteEditorAndProducerDot">
                   <xsl:call-template name="formatManySecondary">
@@ -4387,7 +4383,6 @@
                   </xsl:if>
                 </xsl:variable>
 
-
                 <xsl:variable name = "_albumTitleMediumDot">
                   <xsl:if test="string-length(normalize-space($_albumTitleMedium)) > 0">
                     <xsl:copy-of select="$_albumTitleMedium" />
@@ -4397,12 +4392,32 @@
                   </xsl:if>
                 </xsl:variable>
 
+                <xsl:variable name = "theCompiler">
+                  <xsl:call-template name="formatCompilerLF"/>
+                </xsl:variable>
+
+                <xsl:variable name="withForewordDot">
+                  <xsl:if test="string-length($theCompiler)>0">
+                    <xsl:value-of select="$prop_APA_GeneralOpen"/>
+                    <xsl:text>with</xsl:text>
+                    <xsl:call-template name="templ_prop_Space"/>
+                    <xsl:value-of select="$theCompiler"/>
+                    <xsl:value-of select="$prop_APA_GeneralClose"/>
+                    <xsl:call-template name="templ_prop_Dot"/>
+                  </xsl:if>
+                </xsl:variable>
+
                 <xsl:variable name = "source">
                   <xsl:choose>
                     <xsl:when test="b:SourceType='Book'">
                       <xsl:choose>
                         <xsl:when test="string-length($theAuthorDot)>0">
                           <xsl:value-of select="$theAuthorDot"/>
+
+                          <xsl:if test="string-length($withForewordDot)>0">
+                            <xsl:call-template name="templ_prop_Space"/>
+                            <xsl:value-of select="$withForewordDot"/>
+                          </xsl:if>
 
                           <xsl:if test="string-length($enclosedDateDot)>0">
                             <xsl:call-template name="templ_prop_Space"/>
@@ -5650,7 +5665,7 @@
                   </xsl:when>
                 </xsl:choose>
 
-        <!-- XXX comments -->
+                <!-- XXX comments -->
                 <xsl:if test="string-length(b:Comments)>0">
                   <xsl:variable name="comments">
                     <xsl:call-template name="handleSpaces">
@@ -7858,13 +7873,11 @@
     </xsl:for-each>
   </xsl:template>
 
-
   <xsl:template name="formatInventorLF">
     <xsl:for-each select="b:Author/b:Inventor">
       <xsl:call-template name="formatPersonsAuthor"/>
     </xsl:for-each>
   </xsl:template>
-
 
   <xsl:template name="formatIntervieweeLF">
     <xsl:for-each select="b:Author/b:Interviewee">
@@ -7880,6 +7893,12 @@
 
   <xsl:template name="formatWriterLF">
     <xsl:for-each select="b:Author/b:Writer">
+      <xsl:call-template name="formatPersonsAuthor"/>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template name="formatCompilerLF">
+    <xsl:for-each select="b:Author/b:Compiler">
       <xsl:call-template name="formatPersonsAuthor"/>
     </xsl:for-each>
   </xsl:template>
