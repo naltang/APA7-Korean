@@ -480,7 +480,10 @@
         <xsl:with-param name="LCID" select="$LCID"/>
       </xsl:call-template>
     </xsl:variable>
+    <!-- 
     <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$_LCID]/b:Strings/b:FromCap"/>
+    -->
+    <xsl:text>%1</xsl:text>
   </xsl:template>
 
 
@@ -2124,7 +2127,7 @@
       </xsl:when>
 
       <xsl:when test="b:XslVersion">
-        <xsl:text>20241107</xsl:text>
+        <xsl:text>20241202</xsl:text>
       </xsl:when>
 
       <xsl:when test="b:StyleNameLocalized">
@@ -3153,6 +3156,9 @@
               <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
               <xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'"/>
 
+              <xsl:variable name="charsetOpening" select="'(['"/>
+              <xsl:variable name="charsetClosing" select="')]'"/>
+
               <xsl:variable name="prop_APA_GeneralOpen">
                 <xsl:call-template name="templ_prop_APA_GeneralOpen"/>
               </xsl:variable>
@@ -3639,11 +3645,11 @@
 
                     <xsl:if test="string-length($edition)>0 or string-length($prefixVolumeCap)>0">
                       <xsl:call-template name="templ_prop_Space"/>
-                      <xsl:if test="starts-with($edition, $prop_APA_GeneralOpen)">
+                      <xsl:if test="contains($charsetOpening, substring($edition, 1, 1))">
                         <xsl:value-of select="$edition"/>
                       </xsl:if>
 
-                      <xsl:if test="not(starts-with($edition, $prop_APA_GeneralOpen))">
+                      <xsl:if test="not(contains($charsetOpening, substring($edition, 1, 1)))">
                         <xsl:call-template name="templ_prop_APA_GeneralOpen"/>
 
                         <xsl:if test="string-length($edition)>0">
