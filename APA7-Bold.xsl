@@ -3680,10 +3680,9 @@
                 </xsl:variable>
 
                 <xsl:variable name="i_titleEditionVolumeDot">
-                  <xsl:if test="string-length($i_titleEditionVolume)>0">
-                      <xsl:value-of select="$i_titleEditionVolume"/>
-                      <xsl:call-template name="templ_prop_Dot"/>
-                  </xsl:if>
+                  <xsl:call-template name="appendField_Dot">
+                    <xsl:with-param name="field" select="$i_titleEditionVolume"/>
+                  </xsl:call-template>
                 </xsl:variable>
 
                 <xsl:variable name="author">
@@ -4445,15 +4444,18 @@
                           </xsl:if>
 
                           <xsl:if test="string-length($i_titleEditionVolume)>0">
-                            <xsl:call-template name="templ_prop_Space"/>
-                            <xsl:apply-templates select="msxsl:node-set($i_titleEditionVolume)" mode="outputHtml"/>
+                            <xsl:if test="string-length($theEditorAndTranslator)>0">
+                              <xsl:call-template name="templ_prop_Space"/>
+                              <xsl:apply-templates select="msxsl:node-set($i_titleEditionVolume)" mode="outputHtml"/>
+                              <xsl:call-template name="templ_prop_Space"/>
+                              <xsl:value-of select="$theEditorAndTranslator"/>
+                              <xsl:call-template name="templ_prop_Dot"/>
+                            </xsl:if>
+                            <xsl:if test="string-length($theEditorAndTranslator)=0">
+                              <xsl:call-template name="templ_prop_Space"/>
+                              <xsl:apply-templates select="msxsl:node-set($i_titleEditionVolumeDot)" mode="outputHtml"/>
+                            </xsl:if>
                           </xsl:if>
-
-                          <xsl:if test="string-length($theEditorAndTranslator)>0">
-                            <xsl:call-template name="templ_prop_Space"/>
-                            <xsl:value-of select="$theEditorAndTranslator"/>
-                          </xsl:if>
-                          <xsl:call-template name="templ_prop_Dot"/>
 
                           <xsl:if test="string-length($tempCSCPu)>0">
                             <xsl:call-template name="templ_prop_Space"/>
