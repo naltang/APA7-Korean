@@ -1792,37 +1792,37 @@
   </xsl:template>
 
   <xsl:template name="templ_prop_SimpleAuthor_F" >
-  <xsl:text>%F</xsl:text>
+    <xsl:text>%F</xsl:text>
 
   </xsl:template>
 
 
   <xsl:template name="templ_prop_SimpleAuthor_M" >
-  <xsl:text>%M</xsl:text>
+    <xsl:text>%M</xsl:text>
 
   </xsl:template>
 
 
   <xsl:template name="templ_prop_SimpleAuthor_L" >
-  <xsl:text>%L</xsl:text>
+    <xsl:text>%L</xsl:text>
 
   </xsl:template>
 
 
   <xsl:template name="templ_prop_SimpleDate_D" >
-  <xsl:text>%D</xsl:text>
+    <xsl:text>%D</xsl:text>
 
   </xsl:template>
 
 
   <xsl:template name="templ_prop_SimpleDate_M" >
-  <xsl:text>%M</xsl:text>
+    <xsl:text>%M</xsl:text>
 
   </xsl:template>
 
 
   <xsl:template name="templ_prop_SimpleDate_Y" >
-  <xsl:text>%Y</xsl:text>
+    <xsl:text>%Y</xsl:text>
 
   </xsl:template>
 
@@ -2127,7 +2127,7 @@
       </xsl:when>
 
       <xsl:when test="b:XslVersion">
-        <xsl:text>20241202</xsl:text>
+        <xsl:text>20241221</xsl:text>
       </xsl:when>
 
       <xsl:when test="b:StyleNameLocalized">
@@ -3680,7 +3680,8 @@
                 </xsl:variable>
 
                 <xsl:variable name="i_titleEditionVolumeDot">
-                  <xsl:call-template name="appendField_Dot">
+                  <xsl:apply-templates select="msxsl:node-set($i_titleEditionVolume)" mode="outputHtml"/>
+                  <xsl:call-template name="need_Dot">
                     <xsl:with-param name="field" select="$i_titleEditionVolume"/>
                   </xsl:call-template>
                 </xsl:variable>
@@ -6977,24 +6978,24 @@
   </xsl:template>
 
   <xsl:template name="templateRIDC">
-  <xsl:call-template name='PrintList'>
-    <xsl:with-param name="list">
-      <Items>
-        <TextItem>
-          <xsl:value-of select ="b:ThesisType"/>
-        </TextItem>
-        <TextItem>
-          <xsl:value-of select ="b:Institution"/>
-        </TextItem>
-        <TextItem>
-          <xsl:value-of select ="b:Department"/>
-        </TextItem>
-        <TextItem>
-          <xsl:value-of select ="b:City"/>
-        </TextItem>
-      </Items>
-    </xsl:with-param>
-  </xsl:call-template>
+    <xsl:call-template name='PrintList'>
+      <xsl:with-param name="list">
+        <Items>
+          <TextItem>
+            <xsl:value-of select ="b:ThesisType"/>
+          </TextItem>
+          <TextItem>
+            <xsl:value-of select ="b:Institution"/>
+          </TextItem>
+          <TextItem>
+            <xsl:value-of select ="b:Department"/>
+          </TextItem>
+          <TextItem>
+            <xsl:value-of select ="b:City"/>
+          </TextItem>
+        </Items>
+      </xsl:with-param>
+    </xsl:call-template>
   </xsl:template>
 
   <xsl:template name="templateCSCPu">
