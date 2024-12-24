@@ -2127,7 +2127,7 @@
       </xsl:when>
 
       <xsl:when test="b:XslVersion">
-        <xsl:text>20241221</xsl:text>
+        <xsl:text>20241224</xsl:text>
       </xsl:when>
 
       <xsl:when test="b:StyleNameLocalized">
@@ -5716,8 +5716,7 @@
 
     <xsl:apply-templates select="msxsl:node-set($sourceRoot)/*">
 
-      <!-- XXX add language code -->
-      <xsl:sort select="b:SortingString" order="descending"/>
+      <xsl:sort select="b:SortingString"/>
 
     </xsl:apply-templates>
 
@@ -5732,9 +5731,7 @@
         </xsl:attribute>
       </xsl:for-each>
       <xsl:apply-templates>
-        <!-- XXX add language code -->
         <xsl:sort select="b:SortingString" />
-
       </xsl:apply-templates>
     </xsl:element>
   </xsl:template>
@@ -5882,7 +5879,6 @@
       <xsl:for-each select="/*[$Type]/b:Source">
 
         <xsl:variable name="MostImportantAuthorLocalName">
-
           <xsl:call-template name="MainContributors"/>
         </xsl:variable>
         <xsl:element name="{'b:Source'}">
