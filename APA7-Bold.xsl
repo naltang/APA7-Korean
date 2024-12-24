@@ -2774,7 +2774,7 @@
               <xsl:variable name="maxCitationAuthors" select="2"/>
 
               <xsl:variable name="authorCorporate" select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source/b:Author/b:Main/b:Corporate" />
-              <!-- trim for SNS author IDs -->
+                <!-- trim for SNS author IDs -->
               <xsl:variable name="authorTrimAfter" select="' [@'" />
               <xsl:variable name="authorCorporateTrim">
                 <xsl:choose>
