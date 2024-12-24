@@ -8284,7 +8284,7 @@
       <xsl:with-param name="nextSeparator">
         <xsl:call-template name="templ_prop_ListSeparator"/>
       </xsl:with-param>
-      <xsl:with-param name="textDisplayed" select="''" />
+      <xsl:with-param name="lastTextDisplayed" select="''" />
     </xsl:call-template>
   </xsl:template>
 
