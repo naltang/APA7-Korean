@@ -7409,7 +7409,7 @@
     </xsl:call-template>
   </xsl:template>
 
-  <xsl:variable name="maxBibAuthors" select="21"/>
+  <xsl:variable name="maxBibAuthors" select="20"/>
 
   <xsl:template name="formatPersonSeperator">
     <xsl:param name="isLast"/>
