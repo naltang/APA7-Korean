@@ -2127,7 +2127,7 @@
       </xsl:when>
 
       <xsl:when test="b:XslVersion">
-        <xsl:text>20251205</xsl:text>
+        <xsl:text>20251206</xsl:text>
       </xsl:when>
 
       <xsl:when test="b:StyleNameLocalized">
@@ -2996,6 +2996,9 @@
                     </xsl:when>
                     <xsl:when test="starts-with($pages, 'foreword')">
                       <!-- For citation of 'foreword'. No need to print "pp" -->
+                    </xsl:when>
+                    <xsl:when test="starts-with($pages, '제')">
+                      <!-- For citation of Korean '제x장 x절'. No need to print "pp" -->
                     </xsl:when>
                     <xsl:when test="not(string-length($pages)=string-length(translate($pages, ',', '')))">
                       <xsl:call-template name="templ_str_PagesCountinousShort"/>
