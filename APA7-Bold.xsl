@@ -2127,7 +2127,7 @@
       </xsl:when>
 
       <xsl:when test="b:XslVersion">
-        <xsl:text>20251206</xsl:text>
+        <xsl:text>20260129</xsl:text>
       </xsl:when>
 
       <xsl:when test="b:StyleNameLocalized">
@@ -3000,6 +3000,9 @@
                     <xsl:when test="starts-with($pages, '제')">
                       <!-- For citation of Korean '제x장 x절'. No need to print "pp" -->
                     </xsl:when>
+                    <xsl:when test="starts-with($pages, '\')">
+                      <!-- Escape sequence not to print "pp" -->
+                    </xsl:when>
                     <xsl:when test="not(string-length($pages)=string-length(translate($pages, ',', '')))">
                       <xsl:call-template name="templ_str_PagesCountinousShort"/>
                     </xsl:when>
@@ -3011,7 +3014,14 @@
                     </xsl:otherwise>
                   </xsl:choose>
                   <xsl:call-template name="templ_prop_Space"/>
-                  <xsl:value-of select="$pages"/>
+                  <xsl:choose>
+                    <xsl:when test="starts-with($pages, '\')">
+                      <xsl:value-of select="substring($pages, 2)"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:value-of select="$pages"/>
+                    </xsl:otherwise>
+                  </xsl:choose>
                 </xsl:if>
               </xsl:variable>
 
