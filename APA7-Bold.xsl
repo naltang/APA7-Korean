@@ -2127,7 +2127,7 @@
       </xsl:when>
 
       <xsl:when test="b:XslVersion">
-        <xsl:text>20260129</xsl:text>
+        <xsl:text>20260505</xsl:text>
       </xsl:when>
 
       <xsl:when test="b:StyleNameLocalized">
@@ -2986,43 +2986,9 @@
               <xsl:variable name="pages" select="msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Pages"/>
 
               <xsl:variable name="ppPages">
-                <xsl:if test="string-length($pages)>0">
-                  <xsl:choose>
-                    <xsl:when test="starts-with($pages, 'Chapter')">
-                      <!-- For 'chapter' in an edited (e)book. No need to print "pp" -->
-                    </xsl:when>
-                    <xsl:when test="starts-with($pages, 'Definition')">
-                      <!-- For 'definition' in an online dictionary. No need to print "pp" -->
-                    </xsl:when>
-                    <xsl:when test="starts-with($pages, 'foreword')">
-                      <!-- For citation of 'foreword'. No need to print "pp" -->
-                    </xsl:when>
-                    <xsl:when test="starts-with($pages, '제')">
-                      <!-- For citation of Korean '제x장 x절'. No need to print "pp" -->
-                    </xsl:when>
-                    <xsl:when test="starts-with($pages, '/')">
-                      <!-- Escape sequence not to print "pp" -->
-                    </xsl:when>
-                    <xsl:when test="not(string-length($pages)=string-length(translate($pages, ',', '')))">
-                      <xsl:call-template name="templ_str_PagesCountinousShort"/>
-                    </xsl:when>
-                    <xsl:when test="string-length($pages)=string-length(translate($pages, $prop_APA_Hyphens, ''))">
-                      <xsl:call-template name="templ_str_PageShort"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                      <xsl:call-template name="templ_str_PagesCountinousShort"/>
-                    </xsl:otherwise>
-                  </xsl:choose>
-                  <xsl:call-template name="templ_prop_Space"/>
-                  <xsl:choose>
-                    <xsl:when test="starts-with($pages, '/')">
-                      <xsl:value-of select="substring($pages, 2)"/>
-                    </xsl:when>
-                    <xsl:otherwise>
-                      <xsl:value-of select="$pages"/>
-                    </xsl:otherwise>
-                  </xsl:choose>
-                </xsl:if>
+                <xsl:call-template name="formatPages">
+                  <xsl:with-param name="pages" select="$pages"/>
+                </xsl:call-template>
               </xsl:variable>
 
               <xsl:variable name="displayAuthor">
@@ -3309,21 +3275,9 @@
                 </xsl:variable>
 
                 <xsl:variable name="ppPages">
-                  <xsl:if test="string-length($pages)>0">
-                    <xsl:choose>
-                      <xsl:when test="not(string-length($pages)=string-length(translate($pages, ',', '')))">
-                        <xsl:call-template name="templ_str_PagesCountinousShort"/>
-                      </xsl:when>
-                      <xsl:when test="string-length($pages)=string-length(translate($pages, $prop_APA_Hyphens, ''))">
-                        <xsl:call-template name="templ_str_PageShort"/>
-                      </xsl:when>
-                      <xsl:otherwise>
-                        <xsl:call-template name="templ_str_PagesCountinousShort"/>
-                      </xsl:otherwise>
-                    </xsl:choose>
-                    <xsl:call-template name="templ_prop_Space"/>
-                    <xsl:value-of select="$pages"/>
-                  </xsl:if>
+                  <xsl:call-template name="formatPages">
+                    <xsl:with-param name="pages" select="$pages"/>
+                  </xsl:call-template>
                 </xsl:variable>
 
                 <xsl:variable name="tempPTVI">
@@ -8485,6 +8439,50 @@
     <xsl:call-template name="ApplyItalicTitleNS">
       <xsl:with-param name="data" select="$data" />
     </xsl:call-template>
+  </xsl:template>
+
+  <xsl:template name="formatPages">
+    <xsl:param name="pages"/>
+    <xsl:variable name="prop_APA_Hyphens">
+      <xsl:call-template name="templ_prop_Hyphens"/>
+    </xsl:variable>
+    <xsl:if test="string-length($pages)>0">
+      <xsl:choose>
+        <xsl:when test="starts-with($pages, 'Chapter')">
+          <!-- For 'chapter' in an edited (e)book. No need to print "pp" -->
+        </xsl:when>
+        <xsl:when test="starts-with($pages, 'Definition')">
+          <!-- For 'definition' in an online dictionary. No need to print "pp" -->
+        </xsl:when>
+        <xsl:when test="starts-with($pages, 'foreword')">
+          <!-- For citation of 'foreword'. No need to print "pp" -->
+        </xsl:when>
+        <xsl:when test="starts-with($pages, '제')">
+          <!-- For citation of Korean '제x장 x절'. No need to print "pp" -->
+        </xsl:when>
+        <xsl:when test="starts-with($pages, '\')">
+          <!-- Escape sequence not to print "pp" -->
+        </xsl:when>
+        <xsl:when test="not(string-length($pages)=string-length(translate($pages, ',', '')))">
+          <xsl:call-template name="templ_str_PagesCountinousShort"/>
+        </xsl:when>
+        <xsl:when test="string-length($pages)=string-length(translate($pages, $prop_APA_Hyphens, ''))">
+          <xsl:call-template name="templ_str_PageShort"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:call-template name="templ_str_PagesCountinousShort"/>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:call-template name="templ_prop_Space"/>
+      <xsl:choose>
+        <xsl:when test="starts-with($pages, '\')">
+          <xsl:value-of select="substring($pages, 2)"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$pages"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:if>
   </xsl:template>
 
 </xsl:stylesheet>
